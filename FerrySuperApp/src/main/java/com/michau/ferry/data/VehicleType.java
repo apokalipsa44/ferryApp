@@ -1,4 +1,9 @@
 package com.michau.ferry.data;
 
-public class VehicleType {
+public enum VehicleType {
+    BIKE,
+    CAR,
+    TRUCK,
+    TRAILER,
+    BUS
 }

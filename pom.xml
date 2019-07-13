@@ -3,20 +3,24 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>ferry</artifactId>
-  <build>
+    <packaging>pom</packaging>
+    <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>12</source>
-          <target>12</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
     </plugins>
   </build>
+    <modules>
+        <module>FerrySuperApp</module>
+    </modules>
 
-  <groupId>pl.exercise</groupId>
+    <groupId>pl.exercise</groupId>
   <modelVersion>4.0.0</modelVersion>
   <properties>
     <maven.compiler.source>12</maven.compiler.source>

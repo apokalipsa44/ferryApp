@@ -1,4 +1,7 @@
 package com.michau.ferry.data;
 
-public class CargoType {
+public enum  CargoType {
+    SMALL,
+    BIG,
+    PALLETE
 }

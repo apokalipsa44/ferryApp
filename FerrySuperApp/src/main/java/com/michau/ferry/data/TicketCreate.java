@@ -1,4 +1,5 @@
 package com.michau.ferry.data;
 
-public class TicketCreate {
+public interface TicketCreate {
+    Passenger create();
 }
