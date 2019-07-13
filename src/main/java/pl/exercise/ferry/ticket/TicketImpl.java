@@ -1,4 +1,11 @@
 package pl.exercise.ferry.ticket;
 
-public class TicketImpl {
+import java.math.BigDecimal;
+
+public class TicketImpl implements Ticket {
+    @Override
+    public BigDecimal getPrice() {
+        return null;
+    }
 }
+
