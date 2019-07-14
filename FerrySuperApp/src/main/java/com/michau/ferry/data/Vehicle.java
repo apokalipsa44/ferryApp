@@ -14,12 +14,17 @@ public class Vehicle {
     @DatabaseField(columnName = "license_plate")
     private String licenssePlate;
 
+    @DatabaseField(columnName = "ticket", foreign = true)
+    private Ticket ticket;
+
+
     @DatabaseField(columnName = "price")
     private Double price;
 
-    public Vehicle(VehicleType vehicleType, String licenssePlate, Double price) {
+    public Vehicle(VehicleType vehicleType, String licenssePlate, Ticket ticket, Double price) {
         this.vehicleType = vehicleType;
         this.licenssePlate = licenssePlate;
+        this.ticket = ticket;
         this.price = price;
     }
 
@@ -45,6 +50,14 @@ public class Vehicle {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     public Vehicle() {

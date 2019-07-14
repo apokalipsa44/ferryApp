@@ -17,11 +17,11 @@ public class MainScreen implements Screen {
     private final NumberUtils nu = new NumberUtils();
 
     public static Dao<Passenger,Integer> daoPassengers;
-    public Dao<Vehicle,Integer> daoVehicles;
-    public Dao<Cargo,Integer> daoCargo;
-    public Dao<Ticket,Integer> daoTickets;
+    public static Dao<Vehicle,Integer> daoVehicles;
+    public static Dao<Cargo,Integer> daoCargo;
+    public static Dao<Ticket,Integer> daoTickets;
     public void interact() throws SQLException {
-//        daoPassengers = DaoManager.createDao(DbManager.connectionSource, Passenger.class);
+        daoPassengers = DaoManager.createDao(DbManager.connectionSource, Passenger.class);
         daoVehicles = DaoManager.createDao(DbManager.connectionSource, Vehicle.class);
         daoCargo = DaoManager.createDao(DbManager.connectionSource, Cargo.class);
         daoTickets = DaoManager.createDao(DbManager.connectionSource, Ticket.class);
@@ -32,6 +32,8 @@ public class MainScreen implements Screen {
         int firstResponse = in.nextInt();
         switch (firstResponse){
             case 1:{
+                Ticket ticket = new Ticket();
+                daoTickets.create(ticket);
                 NewTripMenu newTripScreen= new NewTripMenu();
                 newTripScreen.interact();
             }

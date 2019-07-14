@@ -1,7 +1,10 @@
 package com.michau.ferry.data;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
 
 @DatabaseTable(tableName = "tickets")
 public class Ticket {
@@ -9,31 +12,51 @@ public class Ticket {
     @DatabaseField(generatedId = true)
     private int id;
 
-    //    @DatabaseField(columnName = "passenger")
-    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
-    private Passenger passenger;
+    @ForeignCollectionField
+    private ForeignCollection<Passenger> passengers;
 
-    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
-    private Vehicle vehicle;
+    @ForeignCollectionField
+    private ForeignCollection<Vehicle> vehicles;
 
-    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
-    private Cargo cargo;
+    @ForeignCollectionField
+    private ForeignCollection<Cargo> cargos;
 
     @DatabaseField(columnName = "total_price")
     private Double totalPrice;
 
-    public Ticket(Passenger passenger, Double totalPrice) {
-        this.passenger = passenger;
-        this.totalPrice = totalPrice;
+    public int getId() {
+        return id;
     }
 
-    public Ticket(Vehicle vehicle, Double totalPrice) {
-        this.vehicle = vehicle;
-        this.totalPrice = totalPrice;
+    public ForeignCollection<Passenger> getPassengers() {
+        return passengers;
     }
 
-    public Ticket(Cargo cargo, Double totalPrice) {
-        this.cargo = cargo;
+    public void setPassengers(ForeignCollection<Passenger> passengers) {
+        this.passengers = passengers;
+    }
+
+    public ForeignCollection<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(ForeignCollection<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public ForeignCollection<Cargo> getCargos() {
+        return cargos;
+    }
+
+    public void setCargos(ForeignCollection<Cargo> cargos) {
+        this.cargos = cargos;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
