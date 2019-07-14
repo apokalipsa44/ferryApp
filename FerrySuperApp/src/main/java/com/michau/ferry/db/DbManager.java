@@ -16,6 +16,7 @@ import java.sql.SQLException;
 public class DbManager {
 
     public static final String DATABASE_URL = "jdbc:sqlite:ferry.db";
+//    public static final String DATABASE_URL = "jdbc:h2:./ferryDB";
     public static final Logger LOGGER = LoggerFactory.getLogger(DbManager.class);
     public static ConnectionSource connectionSource;
 

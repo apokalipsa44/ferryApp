@@ -22,6 +22,9 @@ public class PassengerFactory {
     }
 
     public void createPassenger(Ticket ticket) throws SQLException {
+        if (ticket.isIsEmpty()){
+            ticket.setIsEmpty(false);
+        }
         System.out.println("dodaje osobe");
         System.out.println("Podaj wiek: ");
         Scanner sc = new Scanner(System.in);

@@ -14,6 +14,7 @@ public class NewTripMenu implements Screen {
 //    DbManager dbManager;
     private final Scanner sc = new Scanner(System.in);
 
+
     public void interact() throws SQLException {
         System.out.println("Utworzenie nowego rejsu > Wybierz dalszą akkcję:");
         System.out.println("1. Dodanie osoby do rejsu");
@@ -22,7 +23,8 @@ public class NewTripMenu implements Screen {
         System.out.println("4. Wydruk biletu");
         System.out.println("0. Powrót");
 
-
+        NewTripMenu newTripMenu= new NewTripMenu();
+        MainScreen mainScreen = new MainScreen();
         int response = sc.nextInt();
 
         switch (response) {
@@ -30,7 +32,7 @@ public class NewTripMenu implements Screen {
                 System.out.println("Dodaj nowego pasażera");
                 PassengerFactory passengerFactory = new PassengerFactory();
                 passengerFactory.createPassenger(daoTickets.queryForId((int) daoTickets.countOf()));
-                NewTripMenu newTripMenu= new NewTripMenu();
+
                 newTripMenu.interact();
                 break;
 
@@ -39,23 +41,29 @@ public class NewTripMenu implements Screen {
                 System.out.println("Dodaj nowy pojazd");
                 VehicleFactory vehicleFactory= new VehicleFactory();
                 vehicleFactory.createVehicle(daoTickets.queryForId((int) daoTickets.countOf()));
+
+                newTripMenu.interact();
                 break;
             }
             case 3: {
                 System.out.println("Dodaj nowy towar");
                 CargoFactory cargoFactory=new CargoFactory();
                 cargoFactory.createCargo(daoTickets.queryForId((int) daoTickets.countOf()));
+
+                newTripMenu.interact();
                 break;
             }
             case 4: {
                 System.out.println("Wydruk biletu");
                 TicketGenerator ticketGenerator= new TicketGenerator();
-                ticketGenerator.printCurrentTicket(daoTickets.queryForId(2));
+                ticketGenerator.printCurrentTicket(daoTickets.queryForId((int) daoTickets.countOf()));
+
+                mainScreen.interact();
                 break;
             }
-            case 5: {
+            case 0: {
                 System.out.println("########################");
-                MainScreen mainScreen = new MainScreen();
+
                 mainScreen.interact();
                 break;
             }

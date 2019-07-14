@@ -1,10 +1,13 @@
 package com.michau.ferry.data;
 
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+
 import java.sql.SQLException;
+import java.util.List;
 
-
-import static com.michau.ferry.menu.MainScreen.daoTickets;
+import static com.michau.ferry.menu.MainScreen.*;
 
 public class TicketGenerator {
 
@@ -12,7 +15,6 @@ public class TicketGenerator {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
         ForeignCollection<Passenger> passengers =ticketResult.getPassengers();
         passengers.add(passenger);
-//        ticket.getPassengers().stream().forEach(e->System.out.println(e.getName()));
         return passengers;
     }
 
@@ -30,10 +32,53 @@ public class TicketGenerator {
         return cargos;
     }
 
-    public void printCurrentTicket(Ticket ticket){
-        System.out.println(ticket.getPassengers().toString());
-        System.out.println(ticket.getVehicles().toString());
-        System.out.println(ticket.getCargos().toString());
+    public void printCurrentTicket(Ticket ticket) throws SQLException {
+        collectPayment(queryForPassengers(ticket),queryForVehicles(ticket) ,queryForCargo(ticket));
+    }
+
+    private double queryForCargo(Ticket ticket) throws SQLException {
+        QueryBuilder<Cargo,Integer> queryBuilder=daoCargo.queryBuilder();
+        queryBuilder.where().eq("ticket", ticket.getId());
+        PreparedQuery<Cargo> prepare = queryBuilder.prepare();
+        List<Cargo> result=daoCargo.query(prepare);
+        result.stream().forEach(e-> System.out.print(e.getDescryption()+" "));
+        System.out.println(" ");
+        double totalForVehicles=result.stream().mapToDouble(e->e.getPrice()).sum();
+        System.out.println("Do zapłaty za pojazdy:"+totalForVehicles+" $");
+        System.out.println(" ");
+        return totalForVehicles;
+    }
+
+    private double queryForVehicles(Ticket ticket) throws SQLException {
+        QueryBuilder<Vehicle,Integer> queryBuilder=daoVehicles.queryBuilder();
+        queryBuilder.where().eq("ticket", ticket.getId());
+        PreparedQuery<Vehicle> prepare = queryBuilder.prepare();
+        List<Vehicle> result=daoVehicles.query(prepare);
+        result.stream().forEach(e-> System.out.print(e.getLicenssePlate()+" "));
+        System.out.println("");
+        double totalForCargo=result.stream().mapToDouble(e->e.getPrice()).sum();
+        System.out.println("Do zapłaty za pasażerów:"+totalForCargo+" $");
+        System.out.println(" ");
+        return totalForCargo;
+    }
+
+    private double queryForPassengers(Ticket ticket) throws SQLException {
+        QueryBuilder<Passenger,Integer> queryBuilder=daoPassengers.queryBuilder();
+        queryBuilder.where().eq("ticket_id", ticket.getId());
+        PreparedQuery<Passenger> prepare = queryBuilder.prepare();
+        List<Passenger> result=daoPassengers.query(prepare);
+        result.stream().forEach(e-> System.out.print(e.getName()+" "));
+        double totalForPassengers=result.stream().mapToDouble(e->e.getPrice()).sum();
+        System.out.println(" ");
+        System.out.println("Do zapłaty za pasażerów:"+totalForPassengers+" $");
+        System.out.println(" ");
+        return totalForPassengers;
+    }
+
+    private void collectPayment(double totalForPassengers, double totalForVehicles, double totalForCargo){
+        double total=totalForCargo+totalForPassengers+totalForVehicles;
+        System.out.println("Do zapłaty: "+total+"$");
+        System.out.println(" ");
     }
 
 }

@@ -19,6 +19,9 @@ public class CargoFactory {
 
 
     public void createCargo(Ticket ticket) throws SQLException {
+        if (ticket.isIsEmpty()){
+            ticket.setIsEmpty(false);
+        }
         System.out.println("Dodaje  towar");
         System.out.println("Wybierz rodzaj towaru: ");
         System.out.println("1. BIG / 2. SMALL / 3. PALLETE ");
