@@ -21,8 +21,8 @@ public class Ticket {
     @ForeignCollectionField
     private ForeignCollection<Cargo> cargos;
 
-    @DatabaseField(columnName = "total_price")
-    private Double totalPrice;
+    @DatabaseField(columnName = "is_empty")
+    private boolean isEmpty;
 
     public int getId() {
         return id;
@@ -52,12 +52,12 @@ public class Ticket {
         this.cargos = cargos;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
+    public boolean isIsEmpty() {
+        return isEmpty;
     }
 
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setIsEmpty(boolean isEmpty) {
+        this.isEmpty = isEmpty;
     }
 
     public Ticket() {

@@ -16,7 +16,7 @@ public class VehicleFactory  {
         return null;
     }
 
-    public Vehicle vehivleFactory(int type, String licensePlate,Ticket ticket, int input) {
+    public Vehicle vehicleFactory(int type, String licensePlate,Ticket ticket, int input) {
         if (type == 3) {
             return new Vehicle(VehicleType.TRUCK, licensePlate,ticket, 10.00 * input) {
             };
@@ -30,6 +30,9 @@ public class VehicleFactory  {
 
 
     public void createVehicle(Ticket ticket) throws SQLException {
+//        if (ticket.isIsEmpty()){
+//            ticket.setIsEmpty(false);
+//        }
         System.out.println("Dodaję pojazd");
         System.out.println("Podaj typ: ");
         System.out.println("1. CAR / 2. BIKE / 3. BUS / 4. TRUCK");
