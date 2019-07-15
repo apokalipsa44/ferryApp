@@ -13,6 +13,8 @@ public class TicketGenerator {
 
     public ForeignCollection<Passenger> addPassenger(Passenger passenger, Ticket ticket) throws SQLException {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
+        ticketResult.setIsEmpty(false);
+        daoTickets.update(ticketResult);
         ForeignCollection<Passenger> passengers =ticketResult.getPassengers();
         passengers.add(passenger);
         return passengers;
@@ -20,6 +22,8 @@ public class TicketGenerator {
 
     public ForeignCollection<Vehicle> addVehicle(Vehicle vehicle, Ticket ticket) throws SQLException {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
+        ticketResult.setIsEmpty(false);
+        daoTickets.update(ticketResult);
         ForeignCollection<Vehicle> vehicles = ticketResult.getVehicles();
         vehicles.add(vehicle);
         return vehicles;
@@ -27,6 +31,8 @@ public class TicketGenerator {
 
     public ForeignCollection<Cargo> addCargo(Cargo cargo, Ticket ticket) throws SQLException {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
+        ticketResult.setIsEmpty(false);
+        daoTickets.update(ticketResult);
         ForeignCollection<Cargo> cargos=ticketResult.getCargos();
         cargos.add(cargo);
         return cargos;
@@ -44,7 +50,7 @@ public class TicketGenerator {
         result.stream().forEach(e-> System.out.print(e.getDescryption()+" "));
         System.out.println(" ");
         double totalForVehicles=result.stream().mapToDouble(e->e.getPrice()).sum();
-        System.out.println("Do zapłaty za pojazdy:"+totalForVehicles+" $");
+        System.out.println("Do zapłaty za ładunek:"+totalForVehicles+" $");
         System.out.println(" ");
         return totalForVehicles;
     }
@@ -57,7 +63,7 @@ public class TicketGenerator {
         result.stream().forEach(e-> System.out.print(e.getLicenssePlate()+" "));
         System.out.println("");
         double totalForCargo=result.stream().mapToDouble(e->e.getPrice()).sum();
-        System.out.println("Do zapłaty za pasażerów:"+totalForCargo+" $");
+        System.out.println("Do zapłaty za pojazdy:"+totalForCargo+" $");
         System.out.println(" ");
         return totalForCargo;
     }

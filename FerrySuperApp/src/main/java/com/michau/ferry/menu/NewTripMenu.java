@@ -15,8 +15,13 @@ public class NewTripMenu implements Screen {
     private final Scanner sc = new Scanner(System.in);
 
 
+    @Override
     public void interact() throws SQLException {
-        System.out.println("Utworzenie nowego rejsu > Wybierz dalszą akkcję:");
+
+    }
+
+    public void interact(int currrentTicketId) throws SQLException {
+        System.out.println("Utworzenie nowego rejsu > Wybierz dalszą akcję:");
         System.out.println("1. Dodanie osoby do rejsu");
         System.out.println("2. Dodanie pojazdu do rejsu");
         System.out.println("3. Dodanie towaru do rejsu");
@@ -31,34 +36,34 @@ public class NewTripMenu implements Screen {
             case 1: {
                 System.out.println("Dodaj nowego pasażera");
                 PassengerFactory passengerFactory = new PassengerFactory();
-                passengerFactory.createPassenger(daoTickets.queryForId((int) daoTickets.countOf()));
+                passengerFactory.createPassenger(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact();
+                newTripMenu.interact(currrentTicketId);
                 break;
 
             }
             case 2: {
                 System.out.println("Dodaj nowy pojazd");
                 VehicleFactory vehicleFactory= new VehicleFactory();
-                vehicleFactory.createVehicle(daoTickets.queryForId((int) daoTickets.countOf()));
+                vehicleFactory.createVehicle(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact();
+                newTripMenu.interact(currrentTicketId);
                 break;
             }
             case 3: {
                 System.out.println("Dodaj nowy towar");
                 CargoFactory cargoFactory=new CargoFactory();
-                cargoFactory.createCargo(daoTickets.queryForId((int) daoTickets.countOf()));
+                cargoFactory.createCargo(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact();
+                newTripMenu.interact(currrentTicketId);
                 break;
             }
             case 4: {
                 System.out.println("Wydruk biletu");
                 TicketGenerator ticketGenerator= new TicketGenerator();
-                ticketGenerator.printCurrentTicket(daoTickets.queryForId((int) daoTickets.countOf()));
+                ticketGenerator.printCurrentTicket(daoTickets.queryForId(currrentTicketId));
 
-                mainScreen.interact();
+                mainScreen.interact(currrentTicketId);
                 break;
             }
             case 0: {

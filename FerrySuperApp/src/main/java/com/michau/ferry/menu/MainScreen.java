@@ -32,7 +32,8 @@ public class MainScreen implements Screen {
 
         List<Ticket> emptyTickets=queryForEmptyTicket();
         emptyTickets.stream().forEach(e-> System.out.println(e.getId()));
-
+        daoTickets.delete(emptyTickets);
+        printLogo();
 
         System.out.println("Witamy w systemie twój rejs, wybierz akcję:");
         System.out.println("1. Utworzenie nowego biletu");
@@ -42,10 +43,11 @@ public class MainScreen implements Screen {
         switch (firstResponse){
             case 1:{
                 Ticket ticket = new Ticket();
-                ticket.setIsEmpty(false);
+                ticket.setIsEmpty(true);
                 daoTickets.create(ticket);
+                int currentTicketId=ticket.getId();
                 NewTripMenu newTripScreen= new NewTripMenu();
-                newTripScreen.interact();
+                newTripScreen.interact(currentTicketId);
             }
             case 2:{
                 TripDetailsMenu savedTripsScreen=new TripDetailsMenu();
@@ -56,6 +58,24 @@ public class MainScreen implements Screen {
                 searchPassenger.interact();
             }
         }
+    }
+
+    private void printLogo() {
+        System.out.println(" @@@@@@   @@@  @@@  @@@@@@@   @@@@@@@@  @@@@@@@   @@@@@@@@  @@@@@@@@  @@@@@@@   @@@@@@@   @@@ @@@  @@@@@@   @@@@@@@ ");
+        System.out.println("@@@@@@@   @@@  @@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@ @@@  @@@@@@@  @@@@@@@@ ");
+        System.out.println("!@@       @@!  @@@  @@!  @@@  @@!       @@!  @@@  @@!       @@!       @@!  @@@  @@!  @@@  @@! !@@      @@@  @@!  @@@");
+        System.out.println("!!@@!!    @!@  !@!  @!@@!@!   @!!!:!    @!@!!@!   @!!!:!    @!!!:!    @!@!!@!   @!@!!@!    !@!@!   @!@!!@   @!@  !@!");
+        System.out.println(" !!@!!!   !@!  !!!  !!@!!!    !!!!!:    !!@!@!    !!!!!:    !!!!!:    !!@!@!    !!@!@!      @!!!   !!@!@!   !@!  !!!");
+        System.out.println("     !:!  !!:  !!!  !!:       !!:       !!: :!!   !!:       !!:       !!: :!!   !!: :!!     !!:        !!:  !!:  !!! ");
+        System.out.println("    !:!   :!:  !:!  :!:       :!:       :!:  !:!  :!:       :!:       :!:  !:!  :!:  !:!    :!:        :!:  :!:  !:!");
+        System.out.println(":::: ::   ::::: ::   ::        :: ::::  ::   :::   ::        :: ::::  ::   :::  ::   :::     ::    :: ::::   :::: ::");
+        System.out.println(":: : :     : :  :    :        : :: ::    :   : :   :        : :: ::    :   : :   :   : :     :      : : :   :: :  : ");
+        System.out.println("");
+    }
+
+    @Override
+    public void interact(int input) throws SQLException {
+
     }
 
     private List<Ticket> queryForEmptyTicket() throws SQLException {
