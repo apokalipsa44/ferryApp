@@ -63,7 +63,7 @@ public class NewTripMenu implements Screen {
                 TicketGenerator ticketGenerator= new TicketGenerator();
                 ticketGenerator.printCurrentTicket(daoTickets.queryForId(currrentTicketId));
 
-                mainScreen.interact(currrentTicketId);
+                newTripMenu.interact(currrentTicketId);
                 break;
             }
             case 0: {
