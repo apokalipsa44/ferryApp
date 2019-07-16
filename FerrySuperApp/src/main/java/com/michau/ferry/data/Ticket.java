@@ -24,6 +24,13 @@ public class Ticket {
     @DatabaseField(columnName = "is_empty")
     private boolean isEmpty;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Cruise cruise;
+
+    @DatabaseField(columnName = "currentWeight")
+    private Integer currentWeight;
+
+
     public int getId() {
         return id;
     }
@@ -58,6 +65,22 @@ public class Ticket {
 
     public void setIsEmpty(boolean isEmpty) {
         this.isEmpty = isEmpty;
+    }
+
+    public Cruise getCruise() {
+        return cruise;
+    }
+
+    public void setCruise(Cruise cruise) {
+        this.cruise = cruise;
+    }
+
+    public Integer getCurrentWeight() {
+        return currentWeight;
+    }
+
+    public void setCurrentWeight(Integer currentWeight) {
+        this.currentWeight =this.currentWeight+ currentWeight;
     }
 
     public Ticket() {

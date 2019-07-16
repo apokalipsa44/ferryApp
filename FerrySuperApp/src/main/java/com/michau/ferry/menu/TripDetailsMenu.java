@@ -23,7 +23,7 @@ public class TripDetailsMenu implements Screen {
     }
 
     @Override
-    public void interact(int input) throws SQLException {
+    public void interact(int input, int input2) throws SQLException {
 
     }
 }

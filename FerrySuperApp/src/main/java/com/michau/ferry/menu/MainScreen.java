@@ -4,10 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.michau.ferry.data.Cargo;
-import com.michau.ferry.data.Passenger;
-import com.michau.ferry.data.Ticket;
-import com.michau.ferry.data.Vehicle;
+import com.michau.ferry.data.*;
 import com.michau.ferry.db.DbManager;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -23,22 +20,27 @@ public class MainScreen implements Screen {
     public static Dao<Vehicle,Integer> daoVehicles;
     public static Dao<Cargo,Integer> daoCargo;
     public static Dao<Ticket,Integer> daoTickets;
+    public static Dao<Cruise,Integer> daoCruise;
     public void interact() throws SQLException {
 
         daoPassengers = DaoManager.createDao(DbManager.connectionSource, Passenger.class);
         daoVehicles = DaoManager.createDao(DbManager.connectionSource, Vehicle.class);
         daoCargo = DaoManager.createDao(DbManager.connectionSource, Cargo.class);
         daoTickets = DaoManager.createDao(DbManager.connectionSource, Ticket.class);
+        daoCruise = DaoManager.createDao(DbManager.connectionSource, Cruise.class);
 
         List<Ticket> emptyTickets=queryForEmptyTicket();
         emptyTickets.stream().forEach(e-> System.out.println(e.getId()));
         daoTickets.delete(emptyTickets);
         printLogo();
 
+        int cruiseId=generateNewCriuse();
+
         System.out.println("Witamy w systemie twój rejs, wybierz akcję:");
         System.out.println("1. Utworzenie nowego biletu");
         System.out.println("2. Odczyt zapisanych danych rejsu");
         System.out.println("3. Wyszukanie uczestnika rejsu");
+
         int firstResponse = in.nextInt();
         switch (firstResponse){
             case 1:{
@@ -47,7 +49,7 @@ public class MainScreen implements Screen {
                 daoTickets.create(ticket);
                 int currentTicketId=ticket.getId();
                 NewTripMenu newTripScreen= new NewTripMenu();
-                newTripScreen.interact(currentTicketId);
+                newTripScreen.interact(currentTicketId, cruiseId);
             }
             case 2:{
                 TripDetailsMenu savedTripsScreen=new TripDetailsMenu();
@@ -60,21 +62,27 @@ public class MainScreen implements Screen {
         }
     }
 
+    private int generateNewCriuse() throws SQLException {
+        Cruise cruise= new Cruise();
+        daoCruise.create(cruise);
+         return cruise.getId();
+    }
+
     private void printLogo() {
-        System.out.println(" @@@@@@   @@@  @@@  @@@@@@@   @@@@@@@@  @@@@@@@   @@@@@@@@  @@@@@@@@  @@@@@@@   @@@@@@@   @@@ @@@  @@@@@@   @@@@@@@ ");
-        System.out.println("@@@@@@@   @@@  @@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@ @@@  @@@@@@@  @@@@@@@@ ");
-        System.out.println("!@@       @@!  @@@  @@!  @@@  @@!       @@!  @@@  @@!       @@!       @@!  @@@  @@!  @@@  @@! !@@      @@@  @@!  @@@");
-        System.out.println("!!@@!!    @!@  !@!  @!@@!@!   @!!!:!    @!@!!@!   @!!!:!    @!!!:!    @!@!!@!   @!@!!@!    !@!@!   @!@!!@   @!@  !@!");
-        System.out.println(" !!@!!!   !@!  !!!  !!@!!!    !!!!!:    !!@!@!    !!!!!:    !!!!!:    !!@!@!    !!@!@!      @!!!   !!@!@!   !@!  !!!");
-        System.out.println("     !:!  !!:  !!!  !!:       !!:       !!: :!!   !!:       !!:       !!: :!!   !!: :!!     !!:        !!:  !!:  !!! ");
-        System.out.println("    !:!   :!:  !:!  :!:       :!:       :!:  !:!  :!:       :!:       :!:  !:!  :!:  !:!    :!:        :!:  :!:  !:!");
-        System.out.println(":::: ::   ::::: ::   ::        :: ::::  ::   :::   ::        :: ::::  ::   :::  ::   :::     ::    :: ::::   :::: ::");
-        System.out.println(":: : :     : :  :    :        : :: ::    :   : :   :        : :: ::    :   : :   :   : :     :      : : :   :: :  : ");
+        System.out.println(" @@@@@@   @@@  @@@  @@@@@@@   @@@@@@@@  @@@@@@@         @@@@@@@@  @@@@@@@@  @@@@@@@   @@@@@@@   @@@ @@@          @@@@@@   @@@@@@@ ");
+        System.out.println("@@@@@@@   @@@  @@@  @@@@@@@@  @@@@@@@@  @@@@@@@@        @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@ @@@         @@@@@@@   @@@@@@@@");
+        System.out.println("!@@       @@!  @@@  @@!  @@@  @@!       @@!  @@@        @@!       @@!       @@!  @@@  @@!  @@@  @@! !@@              @@@  @@!  @@@");
+        System.out.println("!!@@!!    @!@  !@!  @!@@!@!   @!!!:!    @!@!!@!         @!!!:!    @!!!:!    @!@!!@!   @!@!!@!    !@!@!           @!@!!@   @!@  !@!");
+        System.out.println(" !!@!!!   !@!  !!!  !!@!!!    !!!!!:    !!@!@!          !!!!!:    !!!!!:    !!@!@!    !!@!@!      @!!!           !!@!@!   !@!  !!!");
+        System.out.println("     !:!  !!:  !!!  !!:       !!:       !!: :!!         !!:       !!:       !!: :!!   !!: :!!     !!:                !!:  !!:  !!!");
+        System.out.println("    !:!   :!:  !:!  :!:       :!:       :!:  !:!        :!:       :!:       :!:  !:!  :!:  !:!    :!:                :!:  :!:  !:!");
+        System.out.println("::::::     :::::::  ::        :: ::::   ::   :::        ::        :: ::::   ::   :::  ::   :::    ::            :: ::::   :::: ::");
+        System.out.println(":: ::      : :  :   :         : :: ::   :    : :        :         : :: ::   :    : :  :    : :    :              : : :    :: : : ");
         System.out.println("");
     }
 
     @Override
-    public void interact(int input) throws SQLException {
+    public void interact(int input, int input2) throws SQLException {
 
     }
 

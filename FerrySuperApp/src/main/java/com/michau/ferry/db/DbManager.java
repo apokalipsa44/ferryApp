@@ -5,10 +5,7 @@ import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.michau.ferry.data.Cargo;
-import com.michau.ferry.data.Passenger;
-import com.michau.ferry.data.Ticket;
-import com.michau.ferry.data.Vehicle;
+import com.michau.ferry.data.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -58,6 +55,7 @@ public class DbManager {
             TableUtils.createTableIfNotExists(connectionSource, Vehicle.class);
             TableUtils.createTableIfNotExists(connectionSource, Cargo.class);
             TableUtils.createTableIfNotExists(connectionSource, Ticket.class);
+            TableUtils.createTableIfNotExists(connectionSource, Cruise.class);
         } catch (SQLException e) {
             LOGGER.warn(e.getMessage());
         }
@@ -69,6 +67,7 @@ public class DbManager {
             TableUtils.dropTable(connectionSource, Vehicle.class, true);
             TableUtils.dropTable(connectionSource, Cargo.class, true);
             TableUtils.dropTable(connectionSource, Ticket.class, true);
+            TableUtils.dropTable(connectionSource, Cruise.class, true);
         } catch (SQLException e) {
             LOGGER.warn(e.getMessage());
 

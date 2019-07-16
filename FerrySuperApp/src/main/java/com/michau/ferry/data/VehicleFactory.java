@@ -3,26 +3,47 @@ package com.michau.ferry.data;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class VehicleFactory  {
-    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket) {
+import static com.michau.ferry.menu.MainScreen.daoCruise;
+import static com.michau.ferry.menu.MainScreen.daoTickets;
+
+public class VehicleFactory {
+
+
+    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket) throws SQLException {
+        Scale scale = new Scale();
+        Ticket ticketResult = daoTickets.queryForId(ticket.getId());
+        Cruise currentCruise = daoCruise.queryForId(ticketResult.getCruise().getId());
+
         if (type == 1) {
-            return new Vehicle(VehicleType.BIKE, licensePlate,ticket, 10.00) {
+            currentCruise.setLoad(scale.getCurrentWeightCar());
+            daoCruise.update(currentCruise);
+            return new Vehicle(VehicleType.CAR, licensePlate, ticket, 10.00) {
             };
         }
         if (type == 2) {
-            return new Vehicle(VehicleType.CAR, licensePlate, ticket,20.00) {
+            currentCruise.setLoad(scale.getCurrentWeightBike());
+            daoCruise.update(currentCruise);
+            return new Vehicle(VehicleType.BIKE, licensePlate, ticket, 20.00) {
+            };
+        }
+        if (type == 3) {
+            currentCruise.setLoad(scale.getCurrentWeighrTruck());
+            daoCruise.update(currentCruise);
+            return new Vehicle(VehicleType.TRUCK, licensePlate, ticket, 0.04 * scale.getCurrentWeighrTruck()) {
             };
         }
         return null;
     }
 
-    public Vehicle vehicleFactory(int type, String licensePlate,Ticket ticket, int input) {
-        if (type == 3) {
-            return new Vehicle(VehicleType.TRUCK, licensePlate,ticket, 10.00 * input) {
-            };
-        }
+    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket, int input) throws SQLException {
+        Scale scale = new Scale();
+        Ticket ticketResult = daoTickets.queryForId(ticket.getId());
+        Cruise currentCruise = daoCruise.queryForId(ticketResult.getCruise().getId());
+
         if (type == 4) {
-            return new Vehicle(VehicleType.BUS, licensePlate,ticket, 10.00 * input) {
+            currentCruise.setLoad(scale.getCurrentWeightBus());
+            daoCruise.update(currentCruise);
+            return new Vehicle(VehicleType.BUS, licensePlate, ticket, 10.00 * input) {
             };
         }
         return null;
@@ -41,11 +62,23 @@ public class VehicleFactory  {
         int type = Integer.parseInt(typeStr);
         System.out.println("Podaj numer rejestracyjny: ");
         String licensePlate = sc.nextLine();
-        Vehicle newVehicle;
-        newVehicle = vehicleFactory(type, licensePlate, ticket);
-//        daoPassengers.create(newPassenger);
-        TicketGenerator ticketGenerator = new TicketGenerator();
-        ticketGenerator.addVehicle(newVehicle, ticket);
+
+        if (type == 1 || type == 2 || type == 3) {
+            Vehicle newVehicle;
+            newVehicle = vehicleFactory(type, licensePlate, ticket);
+            TicketGenerator ticketGenerator = new TicketGenerator();
+            ticketGenerator.addVehicle(newVehicle, ticket);
+        }
+        if (type == 4) {
+            System.out.println("Podaj długość autobusu: ");
+            String lengthStr = sc.nextLine();
+            int length = Integer.parseInt(lengthStr);
+            Vehicle newVehicle;
+            newVehicle = vehicleFactory(type, licensePlate, ticket, length);
+            TicketGenerator ticketGenerator = new TicketGenerator();
+            ticketGenerator.addVehicle(newVehicle, ticket);
+        }
+
     }
 }
 

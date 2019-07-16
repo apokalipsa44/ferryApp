@@ -1,10 +1,7 @@
 package com.michau.ferry.menu;
 
 
-import com.j256.ormlite.dao.DaoManager;
 import com.michau.ferry.data.*;
-import com.michau.ferry.db.DbManager;
-
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -20,7 +17,7 @@ public class NewTripMenu implements Screen {
 
     }
 
-    public void interact(int currrentTicketId) throws SQLException {
+    public void interact(int currrentTicketId, int criuseId) throws SQLException {
         System.out.println("Utworzenie nowego rejsu > Wybierz dalszą akcję:");
         System.out.println("1. Dodanie osoby do rejsu");
         System.out.println("2. Dodanie pojazdu do rejsu");
@@ -38,7 +35,7 @@ public class NewTripMenu implements Screen {
                 PassengerFactory passengerFactory = new PassengerFactory();
                 passengerFactory.createPassenger(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact(currrentTicketId);
+                newTripMenu.interact(currrentTicketId, criuseId);
                 break;
 
             }
@@ -47,7 +44,7 @@ public class NewTripMenu implements Screen {
                 VehicleFactory vehicleFactory= new VehicleFactory();
                 vehicleFactory.createVehicle(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact(currrentTicketId);
+                newTripMenu.interact(currrentTicketId, criuseId);
                 break;
             }
             case 3: {
@@ -55,7 +52,7 @@ public class NewTripMenu implements Screen {
                 CargoFactory cargoFactory=new CargoFactory();
                 cargoFactory.createCargo(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact(currrentTicketId);
+                newTripMenu.interact(currrentTicketId, criuseId);
                 break;
             }
             case 4: {
@@ -63,7 +60,7 @@ public class NewTripMenu implements Screen {
                 TicketGenerator ticketGenerator= new TicketGenerator();
                 ticketGenerator.printCurrentTicket(daoTickets.queryForId(currrentTicketId));
 
-                newTripMenu.interact(currrentTicketId);
+                newTripMenu.interact(currrentTicketId, criuseId);
                 break;
             }
             case 0: {

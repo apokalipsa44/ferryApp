@@ -11,10 +11,15 @@ import static com.michau.ferry.menu.MainScreen.*;
 
 public class TicketGenerator {
 
+    Scale scale =new Scale();
+
     public ForeignCollection<Passenger> addPassenger(Passenger passenger, Ticket ticket) throws SQLException {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
+        Cruise currentCruise= daoCruise.queryForId(ticketResult.getCruise().getId());
         ticketResult.setIsEmpty(false);
+        currentCruise.setLoad(scale.getCurrentWeightPasserger());
         daoTickets.update(ticketResult);
+        daoCruise.update(currentCruise);
         ForeignCollection<Passenger> passengers =ticketResult.getPassengers();
         passengers.add(passenger);
         return passengers;
