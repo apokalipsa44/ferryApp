@@ -7,10 +7,10 @@ import static com.michau.ferry.menu.MainScreen.daoCruise;
 import static com.michau.ferry.menu.MainScreen.daoTickets;
 
 public class CargoFactory {
-    public Cargo cargoFactory(int type, String content, Ticket ticket) throws SQLException {
+    public Cargo cargoFactory(int type, String content, Ticket ticket, int criuseId) throws SQLException {
         Scale scale= new Scale();
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
-        Cruise currentCruise = daoCruise.queryForId(ticketResult.getCruise().getId());
+        Cruise currentCruise = daoCruise.queryForId(criuseId);
         if (type == 1) {
             currentCruise.setLoad(scale.getCurrentWeightBigCargo());
             daoCruise.update(currentCruise);
@@ -30,7 +30,7 @@ public class CargoFactory {
     }
 
 
-    public void createCargo(Ticket ticket) throws SQLException {
+    public void createCargo(Ticket ticket, int criuseId) throws SQLException {
         if (ticket.isIsEmpty()){
             ticket.setIsEmpty(false);
         }
@@ -42,7 +42,7 @@ public class CargoFactory {
         int type = Integer.parseInt(typeStr);
         System.out.println("Podaj zawartość");
         String content = sc.nextLine();
-        Cargo newCargo = cargoFactory(type, content, ticket);
+        Cargo newCargo = cargoFactory(type, content, ticket,criuseId);
         TicketGenerator ticketGenerator=new TicketGenerator();
         ticketGenerator.addCargo(newCargo,ticket);
 

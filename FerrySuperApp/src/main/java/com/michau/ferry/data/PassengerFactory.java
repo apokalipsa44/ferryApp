@@ -21,7 +21,7 @@ public class PassengerFactory {
         return null;
     }
 
-    public void createPassenger(Ticket ticket) throws SQLException {
+    public void createPassenger(Ticket ticket, int criuseId) throws SQLException {
         System.out.println("dodaje osobe");
         System.out.println("Podaj wiek: ");
         Scanner sc = new Scanner(System.in);
@@ -32,7 +32,7 @@ public class PassengerFactory {
         Passenger newPassenger;
         newPassenger = passengerFactory(name, age, ticket);
         TicketGenerator ticketGenerator = new TicketGenerator();
-        ticketGenerator.addPassenger(newPassenger, ticket);
+        ticketGenerator.addPassenger(newPassenger, ticket, criuseId);
     }
 
 

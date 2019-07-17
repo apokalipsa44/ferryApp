@@ -33,7 +33,7 @@ public class NewTripMenu implements Screen {
             case 1: {
                 System.out.println("Dodaj nowego pasażera");
                 PassengerFactory passengerFactory = new PassengerFactory();
-                passengerFactory.createPassenger(daoTickets.queryForId(currrentTicketId));
+                passengerFactory.createPassenger(daoTickets.queryForId(currrentTicketId), criuseId);
 
                 newTripMenu.interact(currrentTicketId, criuseId);
                 break;
@@ -42,7 +42,7 @@ public class NewTripMenu implements Screen {
             case 2: {
                 System.out.println("Dodaj nowy pojazd");
                 VehicleFactory vehicleFactory= new VehicleFactory();
-                vehicleFactory.createVehicle(daoTickets.queryForId(currrentTicketId));
+                vehicleFactory.createVehicle(daoTickets.queryForId(currrentTicketId), criuseId);
 
                 newTripMenu.interact(currrentTicketId, criuseId);
                 break;
@@ -50,7 +50,7 @@ public class NewTripMenu implements Screen {
             case 3: {
                 System.out.println("Dodaj nowy towar");
                 CargoFactory cargoFactory=new CargoFactory();
-                cargoFactory.createCargo(daoTickets.queryForId(currrentTicketId));
+                cargoFactory.createCargo(daoTickets.queryForId(currrentTicketId), criuseId);
 
                 newTripMenu.interact(currrentTicketId, criuseId);
                 break;

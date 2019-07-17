@@ -24,7 +24,7 @@ public class Ticket {
     @DatabaseField(columnName = "is_empty")
     private boolean isEmpty;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, columnName = "cruise_id")
     private Cruise cruise;
 
     @DatabaseField(columnName = "currentWeight")

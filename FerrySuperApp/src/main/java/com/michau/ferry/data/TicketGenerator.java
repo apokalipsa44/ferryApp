@@ -13,9 +13,9 @@ public class TicketGenerator {
 
     Scale scale =new Scale();
 
-    public ForeignCollection<Passenger> addPassenger(Passenger passenger, Ticket ticket) throws SQLException {
+    public ForeignCollection<Passenger> addPassenger(Passenger passenger, Ticket ticket, int criuseId) throws SQLException {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
-        Cruise currentCruise= daoCruise.queryForId(ticketResult.getCruise().getId());
+        Cruise currentCruise= daoCruise.queryForId(criuseId);
         ticketResult.setIsEmpty(false);
         currentCruise.setLoad(scale.getCurrentWeightPasserger());
         daoTickets.update(ticketResult);

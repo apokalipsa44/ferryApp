@@ -2,7 +2,9 @@ package com.michau.ferry.menu;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.michau.ferry.data.*;
 import com.michau.ferry.db.DbManager;
@@ -21,6 +23,7 @@ public class MainScreen implements Screen {
     public static Dao<Cargo,Integer> daoCargo;
     public static Dao<Ticket,Integer> daoTickets;
     public static Dao<Cruise,Integer> daoCruise;
+    int cruiseId;
     public void interact() throws SQLException {
 
         daoPassengers = DaoManager.createDao(DbManager.connectionSource, Passenger.class);
@@ -33,10 +36,14 @@ public class MainScreen implements Screen {
         emptyTickets.stream().forEach(e-> System.out.println(e.getId()));
         daoTickets.delete(emptyTickets);
         printLogo();
-
-        int cruiseId=generateNewCriuse();
-
         System.out.println("Witamy w systemie twój rejs, wybierz akcję:");
+        System.out.println("");
+        System.out.println("Czy rozpoczynać nowy rejs?  [T/N]");
+        String response=in.nextLine();
+        if(response.equalsIgnoreCase("T")) {
+            cruiseId = generateNewCriuse();
+        }
+
         System.out.println("1. Utworzenie nowego biletu");
         System.out.println("2. Odczyt zapisanych danych rejsu");
         System.out.println("3. Wyszukanie uczestnika rejsu");
@@ -47,6 +54,8 @@ public class MainScreen implements Screen {
                 Ticket ticket = new Ticket();
                 ticket.setIsEmpty(true);
                 daoTickets.create(ticket);
+                addTicket(ticket, cruiseId);
+
                 int currentTicketId=ticket.getId();
                 NewTripMenu newTripScreen= new NewTripMenu();
                 newTripScreen.interact(currentTicketId, cruiseId);
@@ -60,6 +69,17 @@ public class MainScreen implements Screen {
                 searchPassenger.interact();
             }
         }
+    }
+
+    private void addTicket(Ticket ticket, int criuseId) throws SQLException {
+        Ticket currentTicket = daoTickets.queryForId(ticket.getId());
+        Cruise currentCruise= daoCruise.queryForId(criuseId);
+//        currentTicket.setCruise(currentCruise);
+//        daoTickets.update(currentTicket);
+        ForeignCollection<Ticket>tickets= currentCruise.getTickets();
+        tickets.add(currentTicket);
+        daoTickets.update((PreparedUpdate<Ticket>) tickets);
+        daoCruise.update(currentCruise);
     }
 
     private int generateNewCriuse() throws SQLException {

@@ -9,10 +9,10 @@ import static com.michau.ferry.menu.MainScreen.daoTickets;
 public class VehicleFactory {
 
 
-    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket) throws SQLException {
+    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket, int criuseId) throws SQLException {
         Scale scale = new Scale();
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
-        Cruise currentCruise = daoCruise.queryForId(ticketResult.getCruise().getId());
+        Cruise currentCruise = daoCruise.queryForId(criuseId);
 
         if (type == 1) {
             currentCruise.setLoad(scale.getCurrentWeightCar());
@@ -35,10 +35,10 @@ public class VehicleFactory {
         return null;
     }
 
-    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket, int input) throws SQLException {
+    public Vehicle vehicleFactory(int type, String licensePlate, Ticket ticket, int input, int cruseId) throws SQLException {
         Scale scale = new Scale();
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
-        Cruise currentCruise = daoCruise.queryForId(ticketResult.getCruise().getId());
+        Cruise currentCruise = daoCruise.queryForId(cruseId);
 
         if (type == 4) {
             currentCruise.setLoad(scale.getCurrentWeightBus());
@@ -50,7 +50,7 @@ public class VehicleFactory {
     }
 
 
-    public void createVehicle(Ticket ticket) throws SQLException {
+    public void createVehicle(Ticket ticket, int criuseId) throws SQLException {
 //        if (ticket.isIsEmpty()){
 //            ticket.setIsEmpty(false);
 //        }
@@ -65,7 +65,7 @@ public class VehicleFactory {
 
         if (type == 1 || type == 2 || type == 3) {
             Vehicle newVehicle;
-            newVehicle = vehicleFactory(type, licensePlate, ticket);
+            newVehicle = vehicleFactory(type, licensePlate, ticket, criuseId);
             TicketGenerator ticketGenerator = new TicketGenerator();
             ticketGenerator.addVehicle(newVehicle, ticket);
         }
@@ -74,7 +74,7 @@ public class VehicleFactory {
             String lengthStr = sc.nextLine();
             int length = Integer.parseInt(lengthStr);
             Vehicle newVehicle;
-            newVehicle = vehicleFactory(type, licensePlate, ticket, length);
+            newVehicle = vehicleFactory(type, licensePlate, ticket, length, criuseId);
             TicketGenerator ticketGenerator = new TicketGenerator();
             ticketGenerator.addVehicle(newVehicle, ticket);
         }
