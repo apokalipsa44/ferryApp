@@ -7,6 +7,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.michau.ferry.FerryMain.*;
 import static com.michau.ferry.menu.MainScreen.*;
 
 public class TicketGenerator {
@@ -17,7 +18,7 @@ public class TicketGenerator {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
         Cruise currentCruise= daoCruise.queryForId(criuseId);
         ticketResult.setIsEmpty(false);
-        currentCruise.setLoad(scale.getCurrentWeightPasserger());
+//        currentCruise.setLoad(scale.getCurrentWeightPasserger());
         daoTickets.update(ticketResult);
         daoCruise.update(currentCruise);
         ForeignCollection<Passenger> passengers =ticketResult.getPassengers();

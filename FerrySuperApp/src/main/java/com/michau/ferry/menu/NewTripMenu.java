@@ -5,15 +5,23 @@ import com.michau.ferry.data.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static com.michau.ferry.menu.MainScreen.daoTickets;
+import static com.michau.ferry.FerryMain.daoTickets;
+
 
 public class NewTripMenu implements Screen {
 //    DbManager dbManager;
+
+
     private final Scanner sc = new Scanner(System.in);
 
 
     @Override
     public void interact() throws SQLException {
+
+    }
+
+    @Override
+    public void interact(int input) throws SQLException {
 
     }
 

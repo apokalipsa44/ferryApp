@@ -3,8 +3,9 @@ package com.michau.ferry.data;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static com.michau.ferry.menu.MainScreen.daoCruise;
-import static com.michau.ferry.menu.MainScreen.daoTickets;
+import static com.michau.ferry.FerryMain.daoCruise;
+import static com.michau.ferry.FerryMain.daoTickets;
+
 
 public class CargoFactory {
     public Cargo cargoFactory(int type, String content, Ticket ticket, int criuseId) throws SQLException {
@@ -12,17 +13,17 @@ public class CargoFactory {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
         Cruise currentCruise = daoCruise.queryForId(criuseId);
         if (type == 1) {
-            currentCruise.setLoad(scale.getCurrentWeightBigCargo());
+//            currentCruise.setLoad(scale.getCurrentWeightBigCargo());
             daoCruise.update(currentCruise);
             return new Cargo(CargoType.BIG, content, ticket, 36.52);
         }
         if (type == 2) {
-            currentCruise.setLoad(scale.getCurrentWeightSmallCargo());
+//            currentCruise.setLoad(scale.getCurrentWeightSmallCargo());
             daoCruise.update(currentCruise);
             return new Cargo(CargoType.SMALL, content, ticket, 4.25);
         }
         if (type == 3) {
-            currentCruise.setLoad(scale.getCurrentWeightPalleteCargo());
+//            currentCruise.setLoad(scale.getCurrentWeightPalleteCargo());
             daoCruise.update(currentCruise);
             return new Cargo(CargoType.PALLETE, content, ticket, 124.00);
         }

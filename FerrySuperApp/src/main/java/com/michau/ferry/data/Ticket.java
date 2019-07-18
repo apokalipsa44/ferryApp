@@ -24,12 +24,20 @@ public class Ticket {
     @DatabaseField(columnName = "is_empty")
     private boolean isEmpty;
 
-    @DatabaseField(foreign = true, columnName = "cruise_id")
+    @DatabaseField(foreign = true, columnName = "cruise_id", foreignAutoRefresh = true)
     private Cruise cruise;
 
     @DatabaseField(columnName = "currentWeight")
     private Integer currentWeight;
 
+    public Ticket(ForeignCollection<Passenger> passengers, ForeignCollection<Vehicle> vehicles, ForeignCollection<Cargo> cargos, boolean isEmpty, Cruise cruise, Integer currentWeight) {
+        this.passengers = passengers;
+        this.vehicles = vehicles;
+        this.cargos = cargos;
+        this.isEmpty = isEmpty;
+        this.cruise = cruise;
+        this.currentWeight = currentWeight;
+    }
 
     public int getId() {
         return id;

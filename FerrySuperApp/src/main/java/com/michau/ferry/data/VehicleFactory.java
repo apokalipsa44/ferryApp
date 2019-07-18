@@ -3,8 +3,10 @@ package com.michau.ferry.data;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static com.michau.ferry.menu.MainScreen.daoCruise;
-import static com.michau.ferry.menu.MainScreen.daoTickets;
+import static com.michau.ferry.FerryMain.daoCruise;
+import static com.michau.ferry.FerryMain.daoTickets;
+
+
 
 public class VehicleFactory {
 
@@ -15,19 +17,19 @@ public class VehicleFactory {
         Cruise currentCruise = daoCruise.queryForId(criuseId);
 
         if (type == 1) {
-            currentCruise.setLoad(scale.getCurrentWeightCar());
+//            currentCruise.setLoad(scale.getCurrentWeightCar());
             daoCruise.update(currentCruise);
             return new Vehicle(VehicleType.CAR, licensePlate, ticket, 10.00) {
             };
         }
         if (type == 2) {
-            currentCruise.setLoad(scale.getCurrentWeightBike());
+//            currentCruise.setLoad(scale.getCurrentWeightBike());
             daoCruise.update(currentCruise);
             return new Vehicle(VehicleType.BIKE, licensePlate, ticket, 20.00) {
             };
         }
         if (type == 3) {
-            currentCruise.setLoad(scale.getCurrentWeighrTruck());
+//            currentCruise.setLoad(scale.getCurrentWeighrTruck());
             daoCruise.update(currentCruise);
             return new Vehicle(VehicleType.TRUCK, licensePlate, ticket, 0.04 * scale.getCurrentWeighrTruck()) {
             };
@@ -56,7 +58,7 @@ public class VehicleFactory {
 //        }
         System.out.println("Dodaję pojazd");
         System.out.println("Podaj typ: ");
-        System.out.println("1. CAR / 2. BIKE / 3. BUS / 4. TRUCK");
+        System.out.println("1. CAR / 2. BIKE / 3. TRUCK / 4. BUS");
         Scanner sc = new Scanner(System.in);
         String typeStr = sc.nextLine();
         int type = Integer.parseInt(typeStr);
