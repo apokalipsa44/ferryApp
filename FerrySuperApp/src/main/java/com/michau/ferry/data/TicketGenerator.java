@@ -18,7 +18,7 @@ public class TicketGenerator {
         Ticket ticketResult = daoTickets.queryForId(ticket.getId());
         Cruise currentCruise= daoCruise.queryForId(criuseId);
         ticketResult.setIsEmpty(false);
-//        currentCruise.setLoad(scale.getCurrentWeightPasserger());
+        currentCruise.setLoad(scale.getCurrentWeightPasserger());
         daoTickets.update(ticketResult);
         daoCruise.update(currentCruise);
         ForeignCollection<Passenger> passengers =ticketResult.getPassengers();

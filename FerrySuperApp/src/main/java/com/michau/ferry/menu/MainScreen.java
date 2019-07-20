@@ -61,17 +61,21 @@ public class MainScreen implements Screen {
                 int currentTicketId = ticket.getId();
                 NewTripMenu newTripScreen = new NewTripMenu();
                 newTripScreen.interact(currentTicketId, cruiseId);
+                break;
             }
             case 2: {
                 TripDetailsMenu savedTripsScreen = new TripDetailsMenu();
                 savedTripsScreen.interact();
+                break;
             }
             case 3: {
                 SearchScreen searchPassenger = new SearchScreen();
                 searchPassenger.interact();
+                break;
             }
             case 4: {
                 cruiseId = generateNewCriuse();
+                interact();
             }
         }
     }

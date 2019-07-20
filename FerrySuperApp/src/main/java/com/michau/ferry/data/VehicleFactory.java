@@ -17,19 +17,19 @@ public class VehicleFactory {
         Cruise currentCruise = daoCruise.queryForId(criuseId);
 
         if (type == 1) {
-//            currentCruise.setLoad(scale.getCurrentWeightCar());
+            currentCruise.setLoad(scale.getCurrentWeightCar());
             daoCruise.update(currentCruise);
             return new Vehicle(VehicleType.CAR, licensePlate, ticket, 10.00) {
             };
         }
         if (type == 2) {
-//            currentCruise.setLoad(scale.getCurrentWeightBike());
+            currentCruise.setLoad(scale.getCurrentWeightBike());
             daoCruise.update(currentCruise);
             return new Vehicle(VehicleType.BIKE, licensePlate, ticket, 20.00) {
             };
         }
         if (type == 3) {
-//            currentCruise.setLoad(scale.getCurrentWeighrTruck());
+            currentCruise.setLoad(scale.getCurrentWeighrTruck());
             daoCruise.update(currentCruise);
             return new Vehicle(VehicleType.TRUCK, licensePlate, ticket, 0.04 * scale.getCurrentWeighrTruck()) {
             };
